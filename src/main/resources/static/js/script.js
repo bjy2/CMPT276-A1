@@ -27,6 +27,30 @@ add_row_button.addEventListener('click', function(evt) {
     addRow();
 });
 
+function updatePercentage(numeratorInput, denominatorInput, percentageCell) {
+    const numerator = parseFloat(numeratorInput.value);
+    const denominator = parseFloat(denominatorInput.value);
+
+    if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+        const percentage = (numerator / denominator) * 100;
+        percentageCell.textContent = `${percentage.toFixed(2)}%`;
+    } else {
+        percentageCell.textContent = '';
+    }
+}
+
+const gradeNumeInput = document.querySelector('input[name="grade-nume"]');
+const gradeDenoInput = document.querySelector('input[name="grade-deno"]');
+const percentageCell = document.querySelector('.percentage');
+
+gradeNumeInput.addEventListener('input', () => {
+    updatePercentage(gradeNumeInput, gradeDenoInput, percentageCell);
+});
+
+gradeDenoInput.addEventListener('input', () => {
+    updatePercentage(gradeNumeInput, gradeDenoInput, percentageCell);
+});
+
 
 function calcMean() {
     const numerators = document.getElementsByName('grade-nume');
