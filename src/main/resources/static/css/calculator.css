@@ -1,0 +1,84 @@
+header {
+    font-family: initial;
+    font-weight: bold;
+    font-size: 30px;
+    color: black;
+    padding: 80px 0px 0px 30px;
+}
+
+main {
+    border: 0px solid white;
+    margin: 0px 400px 20px 30px;
+    padding: 0px 0px 60px 10px;
+    background-color: rgb(220, 238, 239);
+}
+
+body {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background-color: #a6192e;
+}
+
+.subtitles {
+    color: rgb(205, 4, 4);
+    font-size: large;
+    font-weight: bold;
+}
+
+.Topblackbar {
+    margin: -20px 80px 0px 80px;
+    padding: 20px;
+    background-color: rgb(33, 30, 30);
+}
+
+.Whitebackground {
+    margin: 0px 80px 10px 80px;
+    padding: 10px;
+    background-color: white;
+}
+
+.Bottomblackbar {
+    margin: -10px 80px 0px 80px;
+    padding: 20px;
+    background-color: rgb(33, 30, 30);
+}
+
+table,th,td {
+    border: 1px solid rgb(167, 167, 167);
+    border-collapse: collapse;
+}
+
+th {
+    background-color: rgb(207, 206, 206);
+    width: 150px;
+    height: 20px;
+    text-align: left;
+    padding: 0px 0px 0px 5px;
+}
+
+td {
+    padding: 0px 0px 0px 5px;
+}
+
+input[name="weight"], input[name="grade-nume"], input[name="grade-deno"] {
+    margin: 8px 0px 0px 0px;
+    width: 40px;
+    height: 30px;
+}
+
+.mean, .weighted {
+    background-color: #d0213b;
+    border: #d0213b;
+    color: white;
+    float: right;
+    margin: 0px 20px;
+    width: 90px;
+    height: 30px;
+}
+.weighted {
+    margin: 0px -10px 0px 0px;
+}
+
+.row {
+    height: 50px;
+}
+
