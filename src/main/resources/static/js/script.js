@@ -17,13 +17,26 @@ function addRow() {
             /
             <input type="number" name="grade-deno">
         </td>
-        <td></td>
+        <td class="percentage"></td>
     `;
     tableBody.appendChild(newRow);
+
+    // Add event listeners to the new inputs
+    const gradeNumeInput = newRow.querySelector('input[name="grade-nume"]');
+    const gradeDenoInput = newRow.querySelector('input[name="grade-deno"]');
+    const percentageCell = newRow.querySelector('.percentage');
+
+    gradeNumeInput.addEventListener('input', () => {
+        updatePercentage(gradeNumeInput, gradeDenoInput, percentageCell);
+    });
+
+    gradeDenoInput.addEventListener('input', () => {
+        updatePercentage(gradeNumeInput, gradeDenoInput, percentageCell);
+    });
 }
 
 add_row_button.addEventListener('click', function(evt) {
-    evt.preventDefault(); 
+    evt.preventDefault();
     addRow();
 });
 
@@ -39,18 +52,22 @@ function updatePercentage(numeratorInput, denominatorInput, percentageCell) {
     }
 }
 
-const gradeNumeInput = document.querySelector('input[name="grade-nume"]');
-const gradeDenoInput = document.querySelector('input[name="grade-deno"]');
-const percentageCell = document.querySelector('.percentage');
+function addInitialEventListeners() {
+    const initialRows = document.querySelectorAll('#grade-table tbody tr');
+    initialRows.forEach(row => {
+        const gradeNumeInput = row.querySelector('input[name="grade-nume"]');
+        const gradeDenoInput = row.querySelector('input[name="grade-deno"]');
+        const percentageCell = row.querySelector('.percentage');
 
-gradeNumeInput.addEventListener('input', () => {
-    updatePercentage(gradeNumeInput, gradeDenoInput, percentageCell);
-});
+        gradeNumeInput.addEventListener('input', () => {
+            updatePercentage(gradeNumeInput, gradeDenoInput, percentageCell);
+        });
 
-gradeDenoInput.addEventListener('input', () => {
-    updatePercentage(gradeNumeInput, gradeDenoInput, percentageCell);
-});
-
+        gradeDenoInput.addEventListener('input', () => {
+            updatePercentage(gradeNumeInput, gradeDenoInput, percentageCell);
+        });
+    });
+}
 
 function calcMean() {
     const numerators = document.getElementsByName('grade-nume');
@@ -93,3 +110,4 @@ function calcWeighted() {
     document.getElementById('weighted-grade').textContent = `Weighted Grade: ${(weightedMean * 100).toFixed(2)} / 100`;
 }
 
+document.addEventListener('DOMContentLoaded', addInitialEventListeners);
