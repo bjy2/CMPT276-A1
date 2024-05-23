@@ -5,7 +5,7 @@ function addRow() {
     TotalActivity++;
     const activityName = `Activity ${TotalActivity}`;
     const shortName = `A${TotalActivity}`;
-    const tableBody = document.querySelector('#grade-table tbody');
+    const tableBody = document.getElementsByTagName('tbody')[0];
     const newRow = document.createElement('tr');
     newRow.classList.add('row');
     newRow.innerHTML = `
@@ -21,30 +21,33 @@ function addRow() {
     `;
     tableBody.appendChild(newRow);
 
-    // Add event listeners to the new inputs
-    const gradeNumeInput = newRow.querySelector('input[name="grade-nume"]');
-    const gradeDenoInput = newRow.querySelector('input[name="grade-deno"]');
-    const percentageCell = newRow.querySelector('.percentage');
+    // Add event listeners to new input rows for further percentage update
+    const gradeNumeInput = newRow.getElementsByTagName('input')[1];
+    const gradeDenoInput = newRow.getElementsByTagName('input')[2];
+    const percentageCell = newRow.getElementsByClassName('percentage')[0];
 
-    gradeNumeInput.addEventListener('input', () => {
+    gradeNumeInput.addEventListener('input', function(evt) {
+        evt.preventDefault();
         updatePercentage(gradeNumeInput, gradeDenoInput, percentageCell);
     });
 
-    gradeDenoInput.addEventListener('input', () => {
+    gradeDenoInput.addEventListener('input', function(evt) {
+        evt.preventDefault();
         updatePercentage(gradeNumeInput, gradeDenoInput, percentageCell);
     });
 }
-
+// Add row once button clicked
 add_row_button.addEventListener('click', function(evt) {
     evt.preventDefault();
     addRow();
 });
 
+
 function updatePercentage(numeratorInput, denominatorInput, percentageCell) {
     const numerator = parseFloat(numeratorInput.value);
     const denominator = parseFloat(denominatorInput.value);
 
-    if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+    if (!isNaN(numerator) && !isNaN(denominator) && denominator != 0) {
         const percentage = (numerator / denominator) * 100;
         percentageCell.textContent = `${percentage.toFixed(2)}%`;
     } else {
@@ -52,39 +55,41 @@ function updatePercentage(numeratorInput, denominatorInput, percentageCell) {
     }
 }
 
+// Output percentage for the first row
 function addInitialEventListeners() {
-    const initialRows = document.querySelectorAll('#grade-table tbody tr');
-    initialRows.forEach(row => {
-        const gradeNumeInput = row.querySelector('input[name="grade-nume"]');
-        const gradeDenoInput = row.querySelector('input[name="grade-deno"]');
-        const percentageCell = row.querySelector('.percentage');
+    const initialRows = document.getElementsByClassName('row');
+    for (let row of initialRows) {
+        const gradeNumeInput = row.getElementsByTagName('input')[1];
+        const gradeDenoInput = row.getElementsByTagName('input')[2];
+        const percentageCell = row.getElementsByClassName('percentage')[0];
 
-        gradeNumeInput.addEventListener('input', () => {
+        gradeNumeInput.addEventListener('input', function(evt) {
+            evt.preventDefault();
             updatePercentage(gradeNumeInput, gradeDenoInput, percentageCell);
         });
 
-        gradeDenoInput.addEventListener('input', () => {
+        gradeDenoInput.addEventListener('input', function(evt) {
+            evt.preventDefault();
             updatePercentage(gradeNumeInput, gradeDenoInput, percentageCell);
         });
-    });
+    }
 }
+document.addEventListener('DOMContentLoaded', addInitialEventListeners);
 
 function calcMean() {
     const numerators = document.getElementsByName('grade-nume');
     const denominators = document.getElementsByName('grade-deno');
-    let total = 0;
-    let count = 0;
+    let totalMarks = 0;
 
-    for (let i = 0; i < numerators.length; i++) {
+    for (let i = 0; i < TotalActivity; i++) {
         const numerator = numerators[i].value;
         const denominator = denominators[i].value;
         if (numerator && denominator) {
-            total += parseFloat(numerator) / parseFloat(denominator);
-            count++;
+            totalMarks += parseFloat(numerator) / parseFloat(denominator);
         }
     }
 
-    const mean = total / count;
+    const mean = totalMarks / TotalActivity;
     document.getElementById('mean-grade').textContent = `Mean Grade: ${(mean * 100).toFixed(2)} / 100`;
 }
 
@@ -92,22 +97,20 @@ function calcWeighted() {
     const weights = document.getElementsByName('weight');
     const numerators = document.getElementsByName('grade-nume');
     const denominators = document.getElementsByName('grade-deno');
-    let totalWeightedScore = 0;
+    let totalWeightedMarks = 0;
     let totalWeight = 0;
 
-    for (let i = 0; i < weights.length; i++) {
+    for (let i = 0; i < TotalActivity; i++) {
         const weight = weights[i].value;
         const numerator = numerators[i].value;
         const denominator = denominators[i].value;
         if (weight && numerator && denominator) {
             const grade = parseFloat(numerator) / parseFloat(denominator);
-            totalWeightedScore += grade * parseFloat(weight);
+            totalWeightedMarks += grade * parseFloat(weight);
             totalWeight += parseFloat(weight);
         }
     }
 
-    const weightedMean = totalWeightedScore / totalWeight;
+    const weightedMean = totalWeightedMarks / totalWeight;
     document.getElementById('weighted-grade').textContent = `Weighted Grade: ${(weightedMean * 100).toFixed(2)} / 100`;
 }
-
-document.addEventListener('DOMContentLoaded', addInitialEventListeners);
